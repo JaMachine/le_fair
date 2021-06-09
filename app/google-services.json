@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "580953825298",
+    "project_id": "comlefairorgapp",
+    "storage_bucket": "comlefairorgapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:580953825298:android:70a294ffb2e898a387b8cb",
+        "android_client_info": {
+          "package_name": "com.le.fair.org.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "580953825298-mnt9904gfshqpu0sbvml0id280qh11h9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCo3EUL7V6EhQB9V-NN1ufv1mhvV00S2sQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "580953825298-mnt9904gfshqpu0sbvml0id280qh11h9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
