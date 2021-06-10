@@ -20,7 +20,6 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
-import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
@@ -52,7 +51,7 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-        hideUI();
+        fullScreen();
 
         netStatus = findViewById(R.id.web_view_internet_status);
 
@@ -258,15 +257,14 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        hideUI();
+        fullScreen();
         registerReceiver(broadcastReceiver, myFilter);
         super.onResume();
     }
 
-    private void hideUI() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        View overlay = findViewById(R.id.web_view_screen);
-        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+    private void fullScreen() {
+        View v = findViewById(R.id.wv_container);
+        v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
@@ -274,14 +272,14 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         registerReceiver(broadcastReceiver, myFilter);
-        hideUI();
+        fullScreen();
         super.onRestart();
     }
 
     @Override
     protected void onPause() {
         unregisterReceiver(broadcastReceiver);
-        hideUI();
+        fullScreen();
         super.onPause();
     }
 

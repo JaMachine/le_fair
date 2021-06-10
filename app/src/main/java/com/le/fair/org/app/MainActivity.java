@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        hideUI();
+        fullScreen();
         main = getResources().getString(R.string.icra);
         splashImage = findViewById(R.id.splash_screen);
         internetStatus = findViewById(R.id.internet_status);
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onResume() {
-        hideUI();
+        fullScreen();
         registerReceiver(broadcastReceiver, intentFilter);
         if (isOnline(getApplicationContext()))
             startApp();
@@ -70,10 +70,9 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
     }
 
-    private void hideUI() {
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        View overlay = findViewById(R.id.loading_screen);
-        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+    private void fullScreen() {
+        View v = findViewById(R.id.loading_screen);
+        v.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
                 | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
@@ -172,14 +171,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         registerReceiver(broadcastReceiver, intentFilter);
-        hideUI();
+        fullScreen();
         super.onRestart();
     }
 
     @Override
     protected void onPause() {
         unregisterReceiver(broadcastReceiver);
-        hideUI();
+        fullScreen();
         super.onPause();
     }
 }
