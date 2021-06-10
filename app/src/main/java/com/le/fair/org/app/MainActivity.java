@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -25,28 +26,24 @@ import pl.droidsonroids.gif.GifImageView;
 import static com.le.fair.org.app.ConnectionService.BroadcastStringForAction;
 
 public class MainActivity extends AppCompatActivity {
-
-    private IntentFilter intentFilter;
-    boolean connected;
-
-
-    int timer;
-    boolean stopTimer;
+    static String mySource;
+    protected int count;
+    protected IntentFilter myFilter;
+    protected boolean myOnline, startApplication;
     protected GifImageView loading, myInternetStatus;
-    private FirebaseRemoteConfig myFirebaseRemoteConfig;
-    static String main;
+    protected FirebaseRemoteConfig myFirebaseRemoteConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fullScreen();
-        main = getResources().getString(R.string.salo);
+        mySource = getResources().getString(R.string.salo);
         loading = findViewById(R.id.load);
         myInternetStatus = findViewById(R.id.no_signal);
 
-        intentFilter = new IntentFilter();
-        intentFilter.addAction(BroadcastStringForAction);
+        myFilter = new IntentFilter();
+        myFilter.addAction(BroadcastStringForAction);
         Intent intent = new Intent(this, ConnectionService.class);
         startService(intent);
         if (isOnline(getApplicationContext()))
@@ -58,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         fullScreen();
-        registerReceiver(broadcastReceiver, intentFilter);
+        registerReceiver(broadcastReceiver, myFilter);
         if (isOnline(getApplicationContext()))
             startApp();
         else showConnectionMessage();
@@ -73,17 +70,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadingProcess() {
-        timer = 0;
-        stopTimer = false;
+        count = 0;
+        startApplication = false;
         final Handler handler = new Handler();
         final int delay = 1000;
         loading.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
             public void run() {
-                if (!stopTimer) {
-                    timer++;
-                    if (timer >= 6) {
-                        stopTimer = true;
+                if (!startApplication) {
+                    count++;
+                    if (count >= 6) {
+                        startApplication = true;
                         loading.setVisibility(View.GONE);
                         MainActivity.this.startActivity(new Intent(MainActivity.this, WebViewActivity.class));
                     }
@@ -126,11 +123,11 @@ public class MainActivity extends AppCompatActivity {
 
     void showConnectionMessage() {
         myInternetStatus.setVisibility(View.VISIBLE);
-        connected = false;
+        myOnline = false;
     }
 
     void startApp() {
-        if (!connected) {
+        if (!myOnline) {
             myInternetStatus.setVisibility(View.GONE);
             myFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
             FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
@@ -142,21 +139,21 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<Boolean> task) {
                     if (myFirebaseRemoteConfig.getString("salo").contains("salo")) {
-                        main = dc(main);
+                        mySource = dc(mySource);
                     } else {
-                        main = myFirebaseRemoteConfig.getString("salo");
+                        mySource = myFirebaseRemoteConfig.getString("salo");
                     }
                 }
             });
 
             loadingProcess();
-            connected = true;
+            myOnline = true;
         }
     }
 
     @Override
     protected void onRestart() {
-        registerReceiver(broadcastReceiver, intentFilter);
+        registerReceiver(broadcastReceiver, myFilter);
         fullScreen();
         super.onRestart();
     }

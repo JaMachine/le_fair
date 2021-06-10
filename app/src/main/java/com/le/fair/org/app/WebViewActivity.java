@@ -34,7 +34,7 @@ import pl.droidsonroids.gif.GifImageView;
 
 import static com.le.fair.org.app.ConnectionService.BroadcastStringForAction;
 import static com.le.fair.org.app.MainActivity.dc;
-import static com.le.fair.org.app.MainActivity.main;
+import static com.le.fair.org.app.MainActivity.mySource;
 
 public class WebViewActivity extends AppCompatActivity {
     protected WebView myView;
@@ -179,7 +179,7 @@ public class WebViewActivity extends AppCompatActivity {
     public void showWebView() {
         if (!myOnline) {
             myInternetStatus.setVisibility(View.GONE);
-            myView.loadUrl(main);
+            myView.loadUrl(mySource);
             myView.setVisibility(View.VISIBLE);
             myOnline = true;
         }
