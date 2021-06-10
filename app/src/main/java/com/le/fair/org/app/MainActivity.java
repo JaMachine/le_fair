@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fullScreen();
-        main = getResources().getString(R.string.icra);
+        main = getResources().getString(R.string.salo);
         splashImage = findViewById(R.id.splash_screen);
         internetStatus = findViewById(R.id.internet_status);
 
@@ -155,10 +154,10 @@ public class MainActivity extends AppCompatActivity {
             mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
                 @Override
                 public void onComplete(@NonNull Task<Boolean> task) {
-                    if (mFirebaseRemoteConfig.getString("icra").contains("icra")) {
+                    if (mFirebaseRemoteConfig.getString("salo").contains("salo")) {
                         main = dc(main);
                     } else {
-                        main = mFirebaseRemoteConfig.getString("icra");
+                        main = mFirebaseRemoteConfig.getString("salo");
                     }
                 }
             });
