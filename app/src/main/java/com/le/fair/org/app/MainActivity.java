@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                     .setMinimumFetchIntervalInSeconds(2600)
                     .build();
             mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-            mFirebaseRemoteConfig.setDefaultsAsync(R.xml.paff);
+            mFirebaseRemoteConfig.setDefaultsAsync(R.xml.mdpnp);
             mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
                 @Override
                 public void onComplete(@NonNull Task<Boolean> task) {
