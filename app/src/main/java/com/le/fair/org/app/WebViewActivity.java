@@ -32,7 +32,7 @@ import java.util.Date;
 
 import pl.droidsonroids.gif.GifImageView;
 
-import static com.le.fair.org.app.ConnectionService.BroadcastStringForAction;
+import static com.le.fair.org.app.ConnectionService.status;
 import static com.le.fair.org.app.MainActivity.dc;
 import static com.le.fair.org.app.MainActivity.mySource;
 
@@ -157,7 +157,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         });
         myFilter = new IntentFilter();
-        myFilter.addAction(BroadcastStringForAction);
+        myFilter.addAction(status);
         Intent intent = new Intent(this, ConnectionService.class);
         startService(intent);
         if (isOnline(getApplicationContext()))
@@ -168,7 +168,7 @@ public class WebViewActivity extends AppCompatActivity {
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BroadcastStringForAction)) {
+            if (intent.getAction().equals(status)) {
                 if (intent.getStringExtra("online_status").equals("true"))
                     showWebView();
                 else hideWebView();

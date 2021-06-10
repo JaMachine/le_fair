@@ -12,7 +12,7 @@ import android.os.SystemClock;
 import androidx.annotation.Nullable;
 
 public class ConnectionService  extends Service {
-    public static String BroadcastStringForAction = "checkinternet";
+    public static String status = "status";
 
     @Nullable
     @Override
@@ -37,9 +37,9 @@ public class ConnectionService  extends Service {
     private Runnable networkStateUpdate = new Runnable() {
         @Override
         public void run() {
-            handler.postDelayed(networkStateUpdate, 1 * 1000 - SystemClock.elapsedRealtime() % 1000);
+            handler.postDelayed(networkStateUpdate, 333);
             Intent intent = new Intent();
-            intent.setAction(BroadcastStringForAction);
+            intent.setAction(status);
             intent.putExtra("online_status", "" + isOnline(ConnectionService.this));
             sendBroadcast(intent);
         }

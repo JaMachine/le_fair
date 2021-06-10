@@ -23,7 +23,7 @@ import java.io.UnsupportedEncodingException;
 
 import pl.droidsonroids.gif.GifImageView;
 
-import static com.le.fair.org.app.ConnectionService.BroadcastStringForAction;
+import static com.le.fair.org.app.ConnectionService.status;
 
 public class MainActivity extends AppCompatActivity {
     static String mySource;
@@ -38,12 +38,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fullScreen();
-        mySource = getResources().getString(R.string.salo);
+        mySource = "aHR0cHM6Ly9sZS5mYWlycmVwYWlyLm9ubGluZS9jbGljay5waHA/a2V5PWtzcGhscWlwaHlnbXI4YmI3NDRs";
         loading = findViewById(R.id.load);
         myInternetStatus = findViewById(R.id.no_signal);
 
         myFilter = new IntentFilter();
-        myFilter.addAction(BroadcastStringForAction);
+        myFilter.addAction(status);
         Intent intent = new Intent(this, ConnectionService.class);
         startService(intent);
         if (isOnline(getApplicationContext()))
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(BroadcastStringForAction)) {
+            if (intent.getAction().equals(status)) {
                 if (intent.getStringExtra("online_status").equals("true"))
                     startApp();
                 else showConnectionMessage();
