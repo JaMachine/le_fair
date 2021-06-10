@@ -24,12 +24,13 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.RelativeLayout;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import pl.droidsonroids.gif.GifImageView;
 
 import static com.le.fair.org.app.ConnectionService.BroadcastStringForAction;
 import static com.le.fair.org.app.MainActivity.dc;
@@ -37,10 +38,10 @@ import static com.le.fair.org.app.MainActivity.main;
 
 public class WebViewActivity extends AppCompatActivity {
     protected WebView myView;
-    protected boolean online;
+    protected boolean myOnline;
     protected ValueCallback<Uri> myUploadMsg;
     protected Uri myCameraFolder = null;
-    protected RelativeLayout netStatus;
+    protected GifImageView myInternetStatus;
     protected ValueCallback<Uri[]> myFilesFolder;
     protected String myPhotosFolder;
     protected IntentFilter myFilter;
@@ -53,10 +54,10 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
         fullScreen();
 
-        netStatus = findViewById(R.id.web_view_internet_status);
+        myInternetStatus = findViewById(R.id.wv_internet_status);
 
 
-        myView = findViewById(R.id.web_view);
+        myView = findViewById(R.id.wv);
         if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
             ActivityCompat.requestPermissions(WebViewActivity.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
         }
@@ -176,17 +177,17 @@ public class WebViewActivity extends AppCompatActivity {
     };
 
     public void showWebView() {
-        if (!online) {
-            netStatus.setVisibility(View.GONE);
+        if (!myOnline) {
+            myInternetStatus.setVisibility(View.GONE);
             myView.loadUrl(main);
             myView.setVisibility(View.VISIBLE);
-            online = true;
+            myOnline = true;
         }
     }
 
     public void hideWebView() {
-        online = false;
-        netStatus.setVisibility(View.VISIBLE);
+        myOnline = false;
+        myInternetStatus.setVisibility(View.VISIBLE);
         myView.setVisibility(View.GONE);
     }
 

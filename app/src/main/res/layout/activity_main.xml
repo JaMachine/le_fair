@@ -8,45 +8,25 @@
         android:id="@+id/loading_screen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg">
+        android:background="@color/black">
 
-        <RelativeLayout
-            android:id="@+id/internet_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="29dp"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/main_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:text="Connect to the internet"
-                android:textColor="@color/dark"
-                android:textSize="29sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/main_text"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal"
-                android:text="You're offline. Check your connection."
-                android:textColor="@color/gray"
-                android:textSize="25sp" />
-        </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/splash_screen"
+        <pl.droidsonroids.gif.GifImageView
+            android:id="@+id/load"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:layout_margin="99dp"
-            android:src="@drawable/splash"
-            android:visibility="gone" />
+            android:src="@drawable/loading"
+             />
     </RelativeLayout>
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/no_signal"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_signal"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

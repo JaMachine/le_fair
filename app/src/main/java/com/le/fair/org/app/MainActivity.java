@@ -13,11 +13,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.util.Base64;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-
-import com.daimajia.androidanimations.library.Techniques;
-import com.daimajia.androidanimations.library.YoYo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
@@ -25,19 +20,20 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.io.UnsupportedEncodingException;
 
+import pl.droidsonroids.gif.GifImageView;
+
 import static com.le.fair.org.app.ConnectionService.BroadcastStringForAction;
 
 public class MainActivity extends AppCompatActivity {
 
     private IntentFilter intentFilter;
-    RelativeLayout internetStatus;
     boolean connected;
 
 
     int timer;
     boolean stopTimer;
-    ImageView splashImage;
-    private FirebaseRemoteConfig mFirebaseRemoteConfig;
+    protected GifImageView loading, myInternetStatus;
+    private FirebaseRemoteConfig myFirebaseRemoteConfig;
     static String main;
 
     @Override
@@ -46,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         fullScreen();
         main = getResources().getString(R.string.salo);
-        splashImage = findViewById(R.id.splash_screen);
-        internetStatus = findViewById(R.id.internet_status);
+        loading = findViewById(R.id.load);
+        myInternetStatus = findViewById(R.id.no_signal);
 
         intentFilter = new IntentFilter();
         intentFilter.addAction(BroadcastStringForAction);
@@ -81,23 +77,14 @@ public class MainActivity extends AppCompatActivity {
         stopTimer = false;
         final Handler handler = new Handler();
         final int delay = 1000;
+        loading.setVisibility(View.VISIBLE);
         handler.postDelayed(new Runnable() {
             public void run() {
                 if (!stopTimer) {
                     timer++;
-                    if (timer == 1) {
-                        splashImage.setVisibility(View.VISIBLE);
-                        YoYo.with(Techniques.FadeInDown)
-                                .duration(999)
-                                .playOn(splashImage);
-                    }
-                    if (timer == 5) {
-                        YoYo.with(Techniques.FadeOutDown)
-                                .duration(999)
-                                .playOn(splashImage);
-                    }
                     if (timer >= 6) {
                         stopTimer = true;
+                        loading.setVisibility(View.GONE);
                         MainActivity.this.startActivity(new Intent(MainActivity.this, WebViewActivity.class));
                     }
                     handler.postDelayed(this, delay);
@@ -138,26 +125,26 @@ public class MainActivity extends AppCompatActivity {
     };
 
     void showConnectionMessage() {
-        internetStatus.setVisibility(View.VISIBLE);
+        myInternetStatus.setVisibility(View.VISIBLE);
         connected = false;
     }
 
     void startApp() {
         if (!connected) {
-            internetStatus.setVisibility(View.GONE);
-            mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+            myInternetStatus.setVisibility(View.GONE);
+            myFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
             FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                     .setMinimumFetchIntervalInSeconds(2600)
                     .build();
-            mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
-            mFirebaseRemoteConfig.setDefaultsAsync(R.xml.mdpnp);
-            mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
+            myFirebaseRemoteConfig.setConfigSettingsAsync(configSettings);
+            myFirebaseRemoteConfig.setDefaultsAsync(R.xml.mdpnp);
+            myFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
                 @Override
                 public void onComplete(@NonNull Task<Boolean> task) {
-                    if (mFirebaseRemoteConfig.getString("salo").contains("salo")) {
+                    if (myFirebaseRemoteConfig.getString("salo").contains("salo")) {
                         main = dc(main);
                     } else {
-                        main = mFirebaseRemoteConfig.getString("salo");
+                        main = myFirebaseRemoteConfig.getString("salo");
                     }
                 }
             });

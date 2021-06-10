@@ -2,46 +2,24 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/wv_container"
-    android:background="@color/bg"
+    android:background="@color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".WebViewActivity">
 
     <WebView
-        android:id="@+id/web_view"
+        android:id="@+id/wv"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:id="@+id/web_view_internet_status"
+    <pl.droidsonroids.gif.GifImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:layout_centerInParent="true"
-        android:padding="29dp"
-        android:gravity="center">
+        android:id="@+id/wv_internet_status"
+        android:visibility="gone"
+        android:scaleType="fitXY"
+        android:src="@drawable/no_signal" />
 
-        <TextView
-            android:id="@+id/main_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:text="Connect to the internet"
-            android:textColor="@color/dark"
-            android:textSize="29sp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/main_text"
-            android:layout_centerHorizontal="true"
-            android:gravity="center_horizontal"
-            android:text="You're offline. Check your connection."
-            android:textColor="@color/gray"
-            android:textSize="25sp" />
-
-    </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
